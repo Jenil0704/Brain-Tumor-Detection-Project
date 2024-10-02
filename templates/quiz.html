@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brain Tumor Symptom Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <!-- navbar starts -->
+    <div class="w-full fixed top-0 bg-blue-600 h-20 p-5">
+        <nav class="w-full flex items-center justify-between">
+            <div class="flex items-center justify-center gap-2">
+                <i class="fa-solid fa-brain text-2xl text-white"></i>
+                <a class="text-2xl font-bold text-white" href="/">NeuraScan</a>
+            </div>
+            <div class="lg:hidden">
+            <button id="menu-btn" class="text-white focus:outline-none">
+                <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+            </div>
+            <div id="menu" class="hidden lg:flex gap-5">
+            <a class="text-xl text-white font-semibold" href="/">Detection</a>
+            <a class="text-xl text-white font-semibold" href="/quiz_page">Symptoms</a>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden flex-col gap-5 mt-5 lg:hidden">
+            <a class="text-xl text-white font-semibold" href="#">About</a>
+            <a class="text-xl text-white font-semibold" href="#">How it Works</a>
+            <a class="text-xl text-white font-semibold" href="#">Detection</a>
+            <a class="text-xl text-white font-semibold" href="#">Symptoms</a>
+        </div>
+    </div>
+    <!-- navbar ends -->
+    <!-- quiz section starts -->
+    <div class="container mx-auto px-4 py-10 mt-24">
+        <h1 class="text-4xl font-bold text-center text-black">Brain Tumor Symptom Quiz</h1>
+        <p class="text-center text-blue-600 mt-2">Answer the following questions to assess your symptoms.</p>
+        
+        <div id="quiz-container" class="mt-8 bg-white p-6 rounded-lg shadow-lg"></div>
+        
+        <div class="text-center">
+            <button class="mt-6 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" id="submit-quiz">
+                Submit Quiz
+            </button>
+        </div>
+        <!-- result container -->
+        <div id="result" class="mt-8 p-6 bg-white rounded-lg shadow-lg text-center text-lg font-semibold">
+            <h1>Your Results:</h1>
+        </div>
+        <!-- result container ends -->
+    </div>
+    <!-- quiz section ends -->
+
+    <!-- footer starts -->
+    <div class="w-full bg-blue-600 p-5 mt-10">
+        <footer class="w-full flex flex-col gap-10 md:gap-0 lg:gap-0 md:flex-row lg:flex-row justify-between text-white ">
+            <div class="w-full md:w-1/2 lg:w-1/2  flex flex-col items-start">
+                <h1 class="text-xl font-medium">Quick Links</h1>
+                <div class="mt-5 flex flex-col gap-2">
+                    <a href="/">Detection</a>
+                    <a href="/quiz_page">Symptomps</a>
+                </div>
+            </div>
+            <div class="w-full md:w-1/2 lg:w-1/2">
+                <h1 class="text-xl font-medium">NeuraScan</h1>
+                <p class="text-md mt-5 text-justify">
+                    NeuraScan is committed to advancing healthcare through innovative solutions. Our brain tumor detection tool is designed to support early diagnosis and improve patient outcomes.
+                </p>
+            </div> 
+        </footer>
+    </div>
+    <!-- quiz ends -->
+    <script src="{{ url_for('static', filename='js/quiz.js') }}"></script>
+</body>
+</html>

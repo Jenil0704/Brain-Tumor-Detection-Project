@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brain Tumor Detection Result</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="w-full fixed top-0 bg-blue-600 h-20 p-5">
+        <!-- Navbar section -->
+        <nav class="w-full flex items-center justify-between">
+            <div class="flex items-center justify-center gap-2">
+                <i class="fa-solid fa-brain text-2xl text-white"></i>
+                <a class="text-2xl font-bold text-white" href="/">NeuraScan</a>
+            </div>
+            <div class="lg:hidden">
+            <button id="menu-btn" class="text-white focus:outline-none">
+                <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+            </div>
+            <div id="menu" class="hidden lg:flex gap-5">
+            <a class="text-xl text-white font-semibold" href="/">Detection</a>
+            <a class="text-xl text-white font-semibold" href="/quiz_page">Symptoms</a>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden flex-col gap-5 mt-5 lg:hidden">
+            <a class="text-xl text-white font-semibold" href="/">Detection</a>
+            <a class="text-xl text-white font-semibold" href="/quiz_page">Symptoms</a>
+        </div>
+    </div>
+    <!-- Navbar Ends -->
+
+    <!-- Tumor Detection Report -->
+    <div class="flex items-center justify-center">
+        <div class="container mt-28 border-2 border-gray-200 w-full max-w-3xl rounded-lg px-5 sm:px-10 py-5">
+            <h1 class="text-center text-3xl font-semibold text-black">Brain Tumor Detection Result</h1>
+            
+            <div class="image-container flex flex-col gap-10 sm:flex-row items-center justify-between mt-10">
+                <img class="rounded-md mb-5 sm:mb-0 sm:w-1/2" src="data:image/png;base64,{{ original_image }}" alt="Original Image">
+                <img class="rounded-md sm:w-1/2" src="data:image/png;base64,{{ contoured_image }}" alt="Contoured Image">
+            </div>
+            
+            <div class="result mt-14">
+                {% if is_mri %}
+                    <p class="text-blue-600 text-lg">The image appears to be a valid brain MRI.</p>
+                {% else %}
+                    <p class="text-blue-600 text-md mt-5">Warning: The uploaded image does not seem to be a valid MRI image. Proceeding with caution.</p>
+                {% endif %}
+                
+                {% if prediction == "not_valid_mri" %}
+                    <h2 class="text-red-600 text-xl font-medium mt-7">Result: Not a valid MRI image</h2>
+                    <p class="text-red-600 text-lg mt-5">Confidence: {{ confidence|round(2) }}</p>
+                {% elif prediction == "no_tumor" %}
+                    <h2 class="notumor text-xl font-medium text-blue-600 mt-7">Result: No tumor detected</h2>
+                    <p class="notumornote text-md text-blue-600 mt-5">Note: If the image is a colored image or has a postage stamp-sized shadow, please ignore this result.</p>
+                {% else %}
+                    <h2 class="result text-center text-xl font-medium text-blue-600 mt-7">Result: {{ prediction|capitalize }} tumor detected</h2>
+                    <p class="resulttext text-lg text-blue-600 mt-7">Please consult a medical professional.</p>
+                {% endif %}
+            </div>
+            
+            <div class="chart mt-7">
+                <h2 class="text-xl font-medium text-blue-600">Prediction Probabilities</h2>
+                <img class="mt-2" src="data:image/png;base64,{{ chart_image }}" alt="Prediction Probabilities Chart">
+            </div>
+            
+            <a class="mt-5 px-5 py-2 bg-blue-600 text-white rounded-md" href="/">Upload Another Image</a>
+        </div>
+    </div>
+    <!-- Tumor Detection Report Ends -->
+
+
+    <!-- Get modal information -->
+    <div class="p-5 mt-10 flex flex-col md:flex-row w-full gap-5">
+        <div class="w-full md:w-1/2 bg-white shadow-md rounded-lg p-6">
+            <h1 class="text-2xl font-bold text-black mb-4">Model Information</h1>
+            <div id="model-info" class="text-blue-600 whitespace-pre-line text-lg"></div>
+            <button id="fetch-info" class="mt-6 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-300">
+                Load Model Info
+            </button>
+        </div>
+    
+        <div class="w-full md:w-1/2 bg-white shadow-md rounded-lg p-6">
+            <h1 class="text-2xl font-bold text-gray-800 mb-4">Prediction History</h1>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white">
+                    <thead>
+                        <tr>
+                            <th class="py-2 px-4 border-b-2 border-gray-300 text-left">Sr. no</th>
+                            <th class="py-2 px-4 border-b-2 border-gray-300 text-left">Prediction</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-body" class="text-blue-600">
+                        <!-- Prediction history will be shown here -->
+                    </tbody>
+                </table>
+            </div>
+            <button 
+                id="load-history"
+                class="mt-6 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-300"
+            >
+                Load Prediction History
+            </button>
+        </div>
+    </div>
+    
+    
+    <div class="w-full bg-blue-600 p-5 mt-10">
+        <footer class="w-full flex flex-col gap-10 md:gap-0 lg:gap-0 md:flex-row lg:flex-row justify-between text-white ">
+            <div class="w-full md:w-1/2 lg:w-1/2  flex flex-col items-start">
+                <h1 class="text-xl font-medium">Quick Links</h1>
+                <div class="mt-5 flex flex-col gap-2">
+                    <a href="/">Detection</a>
+                    <a href="/quiz_page">Symptomps</a>
+                </div>
+            </div>
+            <div class="w-full md:w-1/2 lg:w-1/2">
+                <h1 class="text-xl font-medium">NeuraScan</h1>
+                <p class="text-md mt-5 text-justify">
+                    NeuraScan is committed to advancing healthcare through innovative solutions. Our brain tumor detection tool is designed to support early diagnosis and improve patient outcomes.
+                </p>
+            </div> 
+        </footer>
+    </div>
+    <script src="{{ url_for('static', filename='js/result.js') }}"></script>
+</body>
+</html>
