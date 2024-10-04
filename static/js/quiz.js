@@ -1,3 +1,11 @@
+// toggle navbar button
+const menuButton = document.getElementById('menu-button');
+const mobileMenu = document.getElementById('mobile-menu');
+
+menuButton.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+});
+
 // logic for quiz taking
 async function loadQuiz() {
     const response = await fetch('/quiz');
