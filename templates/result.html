@@ -5,38 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brain Tumor Detection Result</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 </head>
 <body>
     <!-- Navbar -->
-    <div class="w-full fixed top-0 bg-blue-600 h-20 p-5">
-        <!-- Navbar section -->
+    <div class="w-full fixed top-0 bg-blue-600 p-5 z-50">
         <nav class="w-full flex items-center justify-between">
+            <!-- Logo Section -->
             <div class="flex items-center justify-center gap-2">
                 <i class="fa-solid fa-brain text-2xl text-white"></i>
                 <a class="text-2xl font-bold text-white" href="/">NeuraScan</a>
             </div>
-            <div class="lg:hidden">
-            <button id="menu-btn" class="text-white focus:outline-none">
-                <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-            </button>
+            <!-- Menu for larger screens -->
+            <div id="menu" class="hidden md:flex gap-5">
+                <a class="text-xl text-white font-semibold" href="/">Detection</a>
+                <a class="text-xl text-white font-semibold" href="/quiz_page">Symptoms</a>
             </div>
-            <div id="menu" class="hidden lg:flex gap-5">
-            <a class="text-xl text-white font-semibold" href="/">Detection</a>
-            <a class="text-xl text-white font-semibold" href="/quiz_page">Symptoms</a>
+            <!-- Hamburger Button for smaller screens -->
+            <div class="md:hidden">
+                <button id="menu-button" class="text-white focus:outline-none">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
             </div>
         </nav>
-        <div id="mobile-menu" class="hidden flex-col gap-5 mt-5 lg:hidden">
-            <a class="text-xl text-white font-semibold" href="/">Detection</a>
-            <a class="text-xl text-white font-semibold" href="/quiz_page">Symptoms</a>
+    
+        <!-- Dropdown Menu for smaller screens -->
+        <div id="mobile-menu" class="hidden flex-col gap-5 mt-5 md:hidden">
+            <a class="text-xl text-white font-semibold block" href="/">Detection</a>
+            <a class="text-xl text-white font-semibold block" href="/quiz_page">Symptoms</a>
         </div>
     </div>
+    
+    <script>
+        const menuButton = document.getElementById('menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+    
+        menuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
     <!-- Navbar Ends -->
 
     <!-- Tumor Detection Report -->
-    <div class="flex items-center justify-center">
-        <div class="container mt-28 border-2 border-gray-200 w-full max-w-3xl rounded-lg px-5 sm:px-10 py-5">
+    <div class="flex items-center justify-center p-5 sm:p-5 md:p-5 lg:p-0">
+        <div class="container mt-28 bg-white shadow-md w-full max-w-3xl rounded-lg px-5 sm:px-10 py-5">
             <h1 class="text-center text-3xl font-semibold text-black">Brain Tumor Detection Result</h1>
             
             <div class="image-container flex flex-col gap-10 sm:flex-row items-center justify-between mt-10">
@@ -68,7 +81,7 @@
                 <img class="mt-2" src="data:image/png;base64,{{ chart_image }}" alt="Prediction Probabilities Chart">
             </div>
             
-            <a class="mt-5 px-5 py-2 bg-blue-600 text-white rounded-md" href="/">Upload Another Image</a>
+            <a class="mt-5 inline-block px-5 py-2 bg-blue-600 text-white rounded-md" href="/">Upload Another Image</a>
         </div>
     </div>
     <!-- Tumor Detection Report Ends -->

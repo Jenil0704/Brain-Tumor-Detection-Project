@@ -1,12 +1,13 @@
+// logic for quiz taking
 async function loadQuiz() {
     const response = await fetch('/quiz');
     const data = await response.json();
     const quizContainer = document.getElementById('quiz-container');
-    quizContainer.innerHTML = ''; // Clear existing content
+    quizContainer.innerHTML = ''; 
 
     data.questions.forEach((q, index) => {
         const questionElement = document.createElement('div');
-        questionElement.classList.add('mb-6'); // Add spacing between questions
+        questionElement.classList.add('mb-6'); 
         questionElement.innerHTML = `
             <h5 class="text-xl font-semibold text-gray-800">${q.question}</h5>
             <div class="mt-2">

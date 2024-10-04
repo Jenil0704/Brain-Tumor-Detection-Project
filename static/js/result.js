@@ -1,3 +1,4 @@
+// logic for fetching model information
 document.getElementById('fetch-info').addEventListener('click', function () {
     fetch('/model_info')
         .then(response => response.text())
@@ -15,7 +16,7 @@ document.getElementById('load-history').addEventListener('click', function () {
         .then(data => {
             const history = data.history;  // Access 'history' array from the JSON response
             const tbody = document.getElementById('history-body');
-            tbody.innerHTML = ''; // Clear the previous content
+            tbody.innerHTML = ''; 
             
             history.forEach((item, index) => {
                 const row = document.createElement('tr');
