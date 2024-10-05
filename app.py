@@ -167,7 +167,7 @@ def index():
 def model_info():
     model_summary = []
     model_info_str = f"Model Architecture: EfficientNet-V2-S\nNumber of Classes: {len(CLASSES)}\nClasses: {CLASSES}"
-    return model_info_str
+    return ({"model_information" : model_info_str})
 
 ### Prediction History API
 @app.route('/prediction_history', methods=['GET'])
@@ -217,6 +217,40 @@ def submit_quiz():
 @app.route('/quiz_page')
 def quiz_page():
     return render_template('quiz.html');
+
+@app.route('/api/book_appointment', methods=['POST'])
+def book_appointment():
+    try:
+        data = request.json
+        
+        # Extract form fields
+        name = data.get('name')
+        email = data.get('email')
+        phone = data.get('phone')
+        appointment_date = data.get('appointment_date')
+        doctor = data.get('doctor')
+        symptoms = data.get('symptoms', 'No symptoms provided')
+
+        # Log or store the appointment details
+        print(f"New Appointment:\n"
+              f"Name: {name}\n"
+              f"Email: {email}\n"
+              f"Phone: {phone}\n"
+              f"Appointment Date: {appointment_date}\n"
+              f"Doctor: {doctor}\n"
+              f"Symptoms: {symptoms}")
+
+        # Here you can add logic to save data to a database or send email notifications
+
+        return jsonify({"message": "Appointment booked successfully!"}), 200
+
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({"error": "An error occurred while booking the appointment."}), 500
+
+@app.route('/appointment')
+def appointment_page():
+    return render_template('appointment.html');
 
 if __name__ == '__main__':
     import threading
